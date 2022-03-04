@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+$news = array('Первая новость', 'Вторая новость');
+
+function news ($arr) {
+    $result = '';
+    foreach ($arr as $val) {
+        $result = $result . "{$val}<br/>";
+    }
+    return $result;
+}
+
+Route::get('/hello/{user}', fn(string $user) => "Hello, {$user}");
+Route::get('/info', fn() => "Курс Laravel. Глубокое погружение. Урок 1.");
+Route::get('/news', fn() => news($news));
