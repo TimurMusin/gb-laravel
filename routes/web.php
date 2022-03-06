@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-$news = array('Первая новость', 'Вторая новость');
 
-function news ($arr) {
-    $result = '';
-    foreach ($arr as $val) {
-        $result = $result . "{$val}<br/>";
-    }
-    return $result;
-}
+Route::get('/news', [NewsController::class, 'index'])
+    ->name('news');
+Route::get('/news/{id}', [NewsController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('news.show');
 
-Route::get('/hello/{user}', fn(string $user) => "Hello, {$user}");
-Route::get('/info', fn() => "Курс Laravel. Глубокое погружение. Урок 1.");
-Route::get('/news', fn() => news($news));
+
+//Admin routes
+Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('categories', AdminCategoryController::class);
+    Route::resource('news', AdminNewsController::class);
+});
