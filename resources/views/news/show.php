@@ -9,6 +9,11 @@
             <?= $news['status'] ?>
         </em>
     </p>
+    <p>Категория:
+        <em>
+            <?= $news['category'] ?>
+        </em>
+    </p>
     <p>Автор:
         <em>
             <?= $news['author'] ?>

@@ -1,3 +1,7 @@
+<h3>
+    Новости по категории <?= $category ?>:
+</h3>
+<br>
 <?php foreach ($newsList as $news) : ?>
     <div class="news">
         <h3>
