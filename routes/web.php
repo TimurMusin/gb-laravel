@@ -27,11 +27,11 @@ Route::get('/news', [NewsController::class, 'index'])
 Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
-Route::get('/category', [CategoryController::class, 'index'])
-    ->name('category');
-Route::get('/category/{name}', [CategoryController::class, 'show'])
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('categories');
+Route::get('/categories/{name}', [CategoryController::class, 'show'])
     ->where('name', '\w+')
-    ->name('category.show');
+    ->name('categories.show');
 
 
 //Admin routes
