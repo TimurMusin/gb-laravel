@@ -10,11 +10,11 @@
 @forelse ($categoryList as $category)
 <div class="col">
     <div class="card shadow-sm">
-        <h3>
-            <a href="{{ route('categories.show', ['name' => $category]) }}">
-                {{ $category }}
-            </a>
-        </h3>
+        <a class="btn btn-info btn-lg active" href="{{ route('categories.show', ['id' => $category->id]) }}">
+            <h3 class="card-title">
+                {{ $category->title }}
+            </h3>
+        </a>
     </div>
 </div>
 @empty

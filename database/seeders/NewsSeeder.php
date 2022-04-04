@@ -24,9 +24,10 @@ class NewsSeeder extends Seeder
         $faker = Factory::create();
         $data = [];
         $statusList = ["DRAFT", "ACTIVE", "BLOCKED"];
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $data[] = [
                 'category_id' => mt_rand(1, 5),
+                'source_id' => mt_rand(1, 10),
                 'title' => $faker->jobTitle(),
                 'status' => $statusList[mt_rand(0, 2)],
                 'author' => $faker->userName(),

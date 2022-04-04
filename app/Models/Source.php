@@ -1,23 +1,21 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Models;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class Source extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $table = 'sources';
 
-    public function getCategories(): array
+    public function getSources(): array
     {
         return DB::table($this->table)
-            ->select("id", "title", "description")
+            ->select("id", "title", "url")
             ->get()
             ->toArray();
     }
