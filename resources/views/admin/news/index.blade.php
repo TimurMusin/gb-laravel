@@ -13,15 +13,17 @@
     </div>
 </div>
 <div class="table-responsive">
+    @include('inc.messages')
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
-            <th>Наименование</th>
+            <th>Заголовок</th>
             <th>Изображение</th>
             <th>Категория</th>
             <th>Статус</th>
             <th>Автор</th>
             <th>Источник</th>
+            <th>Дата редактирования</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -30,10 +32,15 @@
                 <td>{{ $news->id }}</td>
                 <td>{{ $news->title }}</td>
                 <td>{{ $news->image }}</td>
-                <td>{{ $news->categoryTitle }}</td>
+                <td>{{ $news->category->title }}</td>
                 <td>{{ $news->status }}</td>
                 <td>{{ $news->author }}</td>
-                <td>{{ $news->sourceTitle }}</td>
+                <td>{{ $news->source_id }}</td>
+                <td>
+                    @if ($news->updated_at)
+                    {{ $news->updated_at->format('d.m.Y H:i') }}
+                    @endif
+                </td>
                 <td>
                     <a href="{{ route('admin.news.edit', ['news' => $news->id]) }}">Ред.</a>
                     &nbsp;
@@ -47,5 +54,6 @@
             @endforelse
         </tbody>
     </table>
+    {{ $newsList->links() }}
 </div>
 @endsection

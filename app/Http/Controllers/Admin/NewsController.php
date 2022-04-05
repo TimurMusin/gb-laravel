@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\News;
+use App\Models\Source;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {
@@ -16,8 +18,9 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = App(News::class);
-        return view('admin.news.index', ['newsList' => $news->getNews()]);
+        return view('admin.news.index', [
+            'newsList' => News::with('category')->paginate(10)
+        ]);
     }
 
     /**
@@ -27,7 +30,10 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return view('admin.news.create');
+        return view('admin.news.create', [
+            'categories' => Category::select("id", "title")->get(),
+            'sources' => Source::select("id", "title")->get()
+        ]);
     }
 
     /**
@@ -42,7 +48,15 @@ class NewsController extends Controller
             'title' => ['required', 'string']
         ]);
 
-        return response()->json($request->only('title', 'author', 'description'), 201);
+        $news = News::create($request->only([
+            'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
+        ]));
+        if ($news) {
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', 'Новость успешно добавлена');
+        }
+        return back()->with('error', 'Не удалось добавить новость');
     }
 
     /**
@@ -62,9 +76,13 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
-        return view('admin.news.edit');
+        return view('admin.news.edit', [
+            'news' => $news,
+            'categories' => Category::select("id", "title")->get(),
+            'sources' => Source::select("id", "title")->get()
+        ]);
     }
 
     /**
@@ -74,9 +92,20 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+        $status = $news
+            ->fill($request
+                ->only([
+                    'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
+                ]))
+            ->save();
+        if ($status) {
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', 'Новость успешно изменена');
+        }
+        return back()->with('error', 'Не удалось изменить новость');
     }
 
     /**

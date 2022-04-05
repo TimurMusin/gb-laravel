@@ -12,12 +12,8 @@
         </div>
     </div>
     <div class="raw">
-        @if ($errors->any())
-        @foreach ($errors->all() as $error)
-        <x-alert type="danger" :message="$error"></x-alert>
-        @endforeach
-        @endif
-        <form method="post">
+        @include('inc.messages')
+        <form method="post" action="{{route('admin.categories.store')}}">
             @csrf
             <div class="form-group mt-2">
                 <label for="title">Наименование</label>
