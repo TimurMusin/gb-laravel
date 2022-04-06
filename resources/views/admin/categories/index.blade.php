@@ -23,7 +23,7 @@
             <th>Опции</th>
         </thead>
         <tbody>
-            @forelse ($categories as $category)
+            @forelse ($categoryList as $category)
             <tr>
                 <td>{{ $category->id }}</td>
                 <td>{{ $category->title }}</td>
@@ -42,6 +42,6 @@
             @endforelse
         </tbody>
     </table>
-    {{ $categories->links() }}
+    {{ $categoryList->links() }}
 </div>
 @endsection

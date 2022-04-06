@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Source extends Model
@@ -12,11 +12,11 @@ class Source extends Model
 
     protected $table = 'sources';
 
-    public function getSources(): array
+    protected $fillable = ['title', 'url'];
+
+    //relations
+    public function news(): HasMany
     {
-        return DB::table($this->table)
-            ->select("id", "title", "url")
-            ->get()
-            ->toArray();
+        return $this->hasMany(News::class, 'source_id', 'id');
     }
 }

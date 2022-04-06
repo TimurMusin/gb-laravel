@@ -21,3 +21,6 @@
 <h2>Категорий нет</h2>
 @endforelse
 @endsection
+@section('paggination')
+{{ $categoryList->links() }}
+@endsection

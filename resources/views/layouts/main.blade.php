@@ -30,26 +30,27 @@
 
 <body>
     <x-header></x-header>
-    <main>
 
-        <section class="py-5 text-center container">
-            @yield('header')
-        </section>
-
-        <div class="album py-5 bg-light">
-            <div class="container">
-
+    <div class="container-fluid">
+        <div class="row">
+            <section class="py-5 text-center container">
+                @yield('header')
+            </section>
+            <main class="album py-5 bg-light">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     @yield('content')
-
                 </div>
-            </div>
+            </main>
         </div>
+    </div>
+    <div class="container-fluid bg-light">
+        @yield('paggination')
+    </div>
 
-    </main>
     <x-footer></x-footer>
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}">
-    </script>
+
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+
 </body>
 
 </html>

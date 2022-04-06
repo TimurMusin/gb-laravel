@@ -22,7 +22,7 @@
                 <small class="text-muted">
                     Категория :
                     <em>
-                        {{ $news->categoryTitle }}
+                        {{ $news->category->title }}
                     </em>
                 </small>
                 <small class="text-muted">
@@ -36,7 +36,7 @@
                 <small class="text-muted">
                     Источник:
                     <em>
-                        {{ $news->sourceTitle }}
+                        {{ $news->source->title }}
                     </em>
                 </small>
                 <small class="text-muted">
@@ -57,4 +57,7 @@
 @empty
 <h2>Новостей нет</h2>
 @endforelse
+@endsection
+@section('paggination')
+{{ $newsList->links() }}
 @endsection

@@ -12,8 +12,8 @@
         </div>
     </div>
 </div>
+@include('inc.messages')
 <div class="table-responsive">
-    @include('inc.messages')
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
@@ -35,16 +35,17 @@
                 <td>{{ $news->category->title }}</td>
                 <td>{{ $news->status }}</td>
                 <td>{{ $news->author }}</td>
-                <td>{{ $news->source_id }}</td>
+                <td>{{ $news->source->title }}</td>
                 <td>
                     @if ($news->updated_at)
                     {{ $news->updated_at->format('d.m.Y H:i') }}
                     @endif
                 </td>
                 <td>
-                    <a href="{{ route('admin.news.edit', ['news' => $news->id]) }}">Ред.</a>
+                    <a href="{{ route('admin.news.edit', $news->id) }}">Ред.</a>
                     &nbsp;
-                    <a href="javascript:;" style="color: red;">Удл.</a>
+                    <a href="{{ route('admin.news.destroy', $news->id) }}" style="color: red;">Удл.</a>
+                    {{-- <a href="javascript:;" style="color: red;">Удл.</a> --}}
                 </td>
             </tr>
             @empty

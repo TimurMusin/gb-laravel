@@ -22,11 +22,10 @@ class CategorySeeder extends Seeder
     private function getData(): array
     {
         $faker = Factory::create();
-        $categories = ["Category1", "Category2", "Category3", "Category4", "Category5"];
         $data = [];
-        for ($i = 0; $i < 5; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'title' => $categories[$i],
+                'title' => 'Category ' . $i + 1,
                 'description' => $faker->text(100)
             ];
         }

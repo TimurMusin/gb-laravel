@@ -25,7 +25,7 @@
             <label for="source_id">Источник</label>
             <select name="source_id" id="source_id" class="form-control">
                 @foreach ($sources as $source)
-                <option value="{{ $source->id }}" @if ($source->id === old('source_id')) selected @endif>
+                <option value="{{ $source->id }}" @if ($source->id === $news->category_id) selected @endif>
                     {{ $source->title }}
                 </option>
                 @endforeach

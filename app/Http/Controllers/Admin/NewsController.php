@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
 use App\Models\News;
@@ -8,6 +10,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class NewsController extends Controller
 {
@@ -18,6 +22,7 @@ class NewsController extends Controller
      */
     public function index()
     {
+        News::all()->last()->delete();
         return view('admin.news.index', [
             'newsList' => News::with('category')->paginate(10)
         ]);
@@ -116,6 +121,12 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $status = News::find($id)->delete();
+        if ($status) {
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', 'Новость успешно удалена');
+        }
+        return back()->with('error', 'Не удалось удалить новость');
     }
 }
