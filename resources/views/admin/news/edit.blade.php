@@ -33,11 +33,19 @@
         </div>
         <div class="form-group mt-2">
             <label for="title">Заголовок</label>
-            <input class="form-control" type="text" name="title" id="title" value="{{ $news->title }}">
+            <input class="form-control @if ($errors->has('title')) alert-danger @endif" type="text" name="title"
+                id="title" value="{{ $news->title }}">
+            @error('title')
+            <strong style="color: red;">{{ $message }}</strong>
+            @enderror
         </div>
         <div class="form-group mt-2">
             <label for="author">Автор</label>
-            <input class="form-control" type="text" name="author" id="author" value="{{ $news->author }}">
+            <input class="form-control @if ($errors->has('author')) alert-danger @endif" type="text" name="author"
+                id="author" value="{{ $news->author }}">
+            @error('author')
+            <strong style="color: red;">{{ $message }}</strong>
+            @enderror
         </div>
         <div class="form-group mt-2">
             <label for="image">Изображение</label>

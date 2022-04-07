@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\News\EditRequest;
 use Illuminate\Support\Facades\Redirect;
 
 class NewsController extends Controller
@@ -47,21 +48,15 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
-        $news = News::create($request->only([
-            'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
-        ]));
+        $news = News::create($request->validated());
         if ($news) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно добавлена');
+                ->with('success', __('messages.admin.news.create.success'));
         }
-        return back()->with('error', 'Не удалось добавить новость');
+        return back()->with('error', __('messages.admin.news.create.fail'));
     }
 
     /**
@@ -70,7 +65,7 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(News $news)
     {
         //
     }
@@ -97,20 +92,18 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(EditRequest $request, News $news)
     {
+
         $status = $news
-            ->fill($request
-                ->only([
-                    'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
-                ]))
+            ->fill($request->validated())
             ->save();
         if ($status) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно изменена');
+                ->with('success', __('messages.admin.news.update.success'));
         }
-        return back()->with('error', 'Не удалось изменить новость');
+        return back()->with('error', __('messages.admin.news.update.fail'));
     }
 
     /**

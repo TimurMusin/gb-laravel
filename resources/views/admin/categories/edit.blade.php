@@ -18,6 +18,9 @@
       <div class="form-group mt-2">
         <label for="title">Наименование</label>
         <input class="form-control" type="text" name="title" id="title" value="{{ $category->title }}">
+        @error('title')
+        <strong style="color: red;">{{ $message }}</strong>
+        @enderror
       </div>
       <div class="form-group mt-2">
         <label for="description">Описание</label>
