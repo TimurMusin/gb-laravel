@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Category extends Model
@@ -14,11 +14,20 @@ class Category extends Model
 
     protected $table = 'categories';
 
-    public function getCategories(): array
+    protected $fillable = ['title', 'description'];
+
+    protected $casts = [
+        'is_active' => 'boolean'
+    ];
+
+    public function scopeActive($query)
     {
-        return DB::table($this->table)
-            ->select("id", "title", "description")
-            ->get()
-            ->toArray();
+        return $query->where('is_active', true);
+    }
+
+    //relations
+    public function news(): HasMany
+    {
+        return $this->hasMany(News::class, 'category_id', 'id');
     }
 }

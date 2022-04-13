@@ -12,16 +12,18 @@
         </div>
     </div>
 </div>
+@include('inc.messages')
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
-            <th>Наименование</th>
+            <th>Заголовок</th>
             <th>Изображение</th>
             <th>Категория</th>
             <th>Статус</th>
             <th>Автор</th>
             <th>Источник</th>
+            <th>Дата редактирования</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -30,14 +32,20 @@
                 <td>{{ $news->id }}</td>
                 <td>{{ $news->title }}</td>
                 <td>{{ $news->image }}</td>
-                <td>{{ $news->categoryTitle }}</td>
+                <td>{{ $news->category->title }}</td>
                 <td>{{ $news->status }}</td>
                 <td>{{ $news->author }}</td>
-                <td>{{ $news->sourceTitle }}</td>
+                <td>{{ $news->source->title }}</td>
                 <td>
-                    <a href="{{ route('admin.news.edit', ['news' => $news->id]) }}">Ред.</a>
+                    @if ($news->updated_at)
+                    {{ $news->updated_at->format('d.m.Y H:i') }}
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('admin.news.edit', $news->id) }}">Ред.</a>
                     &nbsp;
-                    <a href="javascript:;" style="color: red;">Удл.</a>
+                    <a href="{{ route('admin.news.destroy', $news->id) }}" style="color: red;">Удл.</a>
+                    {{-- <a href="javascript:;" style="color: red;">Удл.</a> --}}
                 </td>
             </tr>
             @empty
@@ -47,5 +55,6 @@
             @endforelse
         </tbody>
     </table>
+    {{ $newsList->links() }}
 </div>
 @endsection

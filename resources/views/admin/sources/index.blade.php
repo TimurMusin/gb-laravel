@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Список Источников</h1>
+    <h1 class="h2">Список источников</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
             <a href="{{ route('admin.sources.create') }}" class="btn btn-sm btn-outline-secondary">Добавить
@@ -13,11 +13,13 @@
     </div>
 </div>
 <div class="table-responsive">
+    @include('inc.messages')
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
             <th>Наименование</th>
             <th>URL</th>
+            <th>Кол-во новостей</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -26,6 +28,7 @@
                 <td>{{ $source->id }}</td>
                 <td>{{ $source->title }}</td>
                 <td>{{ $source->url }}</td>
+                <td>{{ $source->news_count }}</td>
                 <td>
                     <a href="{{ route('admin.sources.edit', ['source' => $source->id]) }}">Ред.</a>
                     &nbsp;
@@ -39,5 +42,6 @@
             @endforelse
         </tbody>
     </table>
+    {{ $sourceList->links() }}
 </div>
 @endsection

@@ -15,8 +15,9 @@ class SourceController extends Controller
      */
     public function index()
     {
-        $source = app(Source::class);
-        return view('admin.sources.index', ['sourceList' => $source->getSources()]);
+        return view('admin.sources.index', [
+            'sourceList' => Source::withCount('news')->paginate(10)
+        ]);
     }
 
     /**
@@ -37,8 +38,16 @@ class SourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->only(['title', 'url']);
+        $source = Source::create($data);
+        if ($source) {
+            return redirect()
+                ->route('admin.sources.index')
+                ->with('success', 'Категория успешно добавлена');
+        }
+        return back()->with('error', 'Не удалось добавить категорию');
     }
+
 
     /**
      * Display the specified resource.
@@ -57,10 +66,11 @@ class SourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Source $source)
     {
-        //
+        return view('admin.sources.edit', ['source' => $source]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -69,9 +79,17 @@ class SourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Source $source)
     {
-        //
+        $status = $source
+            ->fill($request->only(['title', 'url']))
+            ->save();
+        if ($status) {
+            return redirect()
+                ->route('admin.sources.index')
+                ->with('success', 'Источник успешно изменён');
+        }
+        return back()->with('error', 'Не удалось изменить источник');
     }
 
     /**

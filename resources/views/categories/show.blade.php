@@ -5,7 +5,7 @@
         <h1 class="fw-light">
             Список новостей по категории:
             <strong>
-                {{ $newsList[0]->categoryTitle }}
+                {{ $newsList[0]->category->title }}
             </strong>
         </h1>
     </div>
@@ -27,7 +27,7 @@
                 <small class="text-muted">
                     Категория :
                     <em>
-                        {{ $news->categoryTitle }}
+                        {{ $news->category->title }}
                     </em>
                 </small>
                 <small class="text-muted">
@@ -41,7 +41,7 @@
                 <small class="text-muted">
                     Источник:
                     <em>
-                        {{ $news->sourceTitle }}
+                        {{ $news->source->title }}
                     </em>
                 </small>
                 <small class="text-muted">
@@ -62,4 +62,7 @@
 @empty
 <h2>В данной категории новостей нет</h2>
 @endforelse
+@endsection
+@section('paggination')
+{{ $newsList->links() }}
 @endsection

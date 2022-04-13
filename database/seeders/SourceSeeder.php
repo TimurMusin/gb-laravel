@@ -23,7 +23,7 @@ class SourceSeeder extends Seeder
     {
         $faker = Factory::create();
         $data = [];
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $data[] = [
                 'title' => $faker->word(),
                 'url' => $faker->url()
