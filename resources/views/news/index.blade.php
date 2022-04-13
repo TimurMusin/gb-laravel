@@ -10,40 +10,46 @@
 @forelse ($newsList as $news)
 <div class="col">
     <div class="card shadow-sm">
-        <img src="{{ $news['image'] }}">
-        <h3>
-            <a href="{{ route('news.show', ['id' => $news['id']]) }}">
-                {{ $news['title'] }}
-            </a>
-        </h3>
+        <img class="card-img-top" src="{{ $news->image }} alt=" News image">
         <div class="card-body">
+            <h5 class="card-title">
+                {{ $news->title }}
+            </h5>
             <p class="card-text">
-                {{ $news['description'] }}
+                {{ $news->description }}
             </p>
             <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                    <a href="{{ route('news.show', ['id' => $news['id']]) }}" class="btn btn-sm btn-outline-secondary">
-                        Подробнее
-                    </a>
-                </div>
                 <small class="text-muted">
-                    Автор:
+                    Категория :
                     <em>
-                        {{ $news['author'] }}
-                    </em>
-                </small>
-                <small class="text-muted">
-                    Категория:
-                    <em>
-                        {{ $news['category'] }}
+                        {{ $news->categoryTitle }}
                     </em>
                 </small>
                 <small class="text-muted">
                     Стаутус:
                     <em>
-                        {{ $news['status'] }}
+                        {{ $news->status }}
                     </em>
                 </small>
+            </div>
+            <div class="d-flex justify-content-between align-items-center pt-2">
+                <small class="text-muted">
+                    Источник:
+                    <em>
+                        {{ $news->sourceTitle }}
+                    </em>
+                </small>
+                <small class="text-muted">
+                    Автор:
+                    <em>
+                        {{ $news->author }}
+                    </em>
+                </small>
+            </div>
+            <div class="btn-group d-flex pt-2">
+                <a href="{{ route('news.show', ['id' => $news->id]) }}" class="btn btn-sm btn-outline-secondary">
+                    Подробнее
+                </a>
             </div>
         </div>
     </div>

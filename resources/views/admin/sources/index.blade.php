@@ -1,14 +1,14 @@
 @extends('layouts.admin')
 @section('title')
-@parent Категории
+@parent Источники
 @endsection
 @section('content')
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Список категорий</h1>
+    <h1 class="h2">Список Источников</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-            <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-secondary">Добавить
-                категорию</a>
+            <a href="{{ route('admin.sources.create') }}" class="btn btn-sm btn-outline-secondary">Добавить
+                источник</a>
         </div>
     </div>
 </div>
@@ -17,17 +17,17 @@
         <thead>
             <th>ID</th>
             <th>Наименование</th>
-            <th>Описание</th>
+            <th>URL</th>
             <th>Опции</th>
         </thead>
         <tbody>
-            @forelse ($categories as $category)
+            @forelse ($sourceList as $source)
             <tr>
-                <td>{{ $category->id }}</td>
-                <td>{{ $category->title }}</td>
-                <td>{{ $category->description }}</td>
+                <td>{{ $source->id }}</td>
+                <td>{{ $source->title }}</td>
+                <td>{{ $source->url }}</td>
                 <td>
-                    <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
+                    <a href="{{ route('admin.sources.edit', ['source' => $source->id]) }}">Ред.</a>
                     &nbsp;
                     <a href="javascript:;" style="color: red;">Удл.</a>
                 </td>

@@ -9,6 +9,13 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif"
+                    href="{{ route('admin.news.index') }}">
+                    <span data-feather="list"></span>
+                    Новости
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link @if(request()->routeIs('admin.categories.*')) active @endif"
                     href="{{ route('admin.categories.index') }}">
                     <span data-feather="file"></span>
@@ -16,10 +23,10 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if(request()->routeIs('admin.news.*')) active @endif"
-                    href="{{ route('admin.news.index') }}">
-                    <span data-feather="list"></span>
-                    Новости
+                <a class="nav-link @if(request()->routeIs('admin.sources.*')) active @endif"
+                    href="{{ route('admin.sources.index') }}">
+                    <span data-feather="link"></span>
+                    Источники
                 </a>
             </li>
         </ul>

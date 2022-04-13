@@ -2,30 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
+use App\Models\Category;
 use Illuminate\Http\Request;
-
-// 2. Добавить в проект несколько контроллеров для вывода следующих страниц:
-// 1.2. Страница категорий новостей. Данная страница должна выводить все категории из
-// данных созданных в первом задании.
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $category = $this->getCategory();
-
-        return view('categories.index', [
-            'categoryList' => $category
-        ]);
+        $categories = app(Category::class);
+        return view('categories.index', ['categoryList' => $categories->getCategories()]);
     }
 
-    public function show(string $category)
+    public function show(int $id)
     {
-        $news = $this->getNewsByCategory($category);
-
-        return view('categories.show', [
-            'category' => $category,
-            'newsList' => $news
-        ]);
+        $news = app(News::class);
+        return view('categories.show', ['newsList' => $news->getNewsByCategory($id)]);
     }
 }
