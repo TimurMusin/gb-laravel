@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\News;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateRequest extends FormRequest
@@ -23,16 +24,28 @@ class CreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'category_id' => ['required', 'integer', 'exists:news'],
-            'source_id' => ['required', 'integer', 'exists:news'],
-            'title' => ['required', 'string', 'min:3', 'max:30'],
-            'status' => ['required', 'string', 'min:5', 'max:7'],
+            'category_id' => ['required', 'integer', 'exists:news,category_id'],
+            'source_id' => ['required', 'integer', 'exists:news,source_id'],
+            'title' => ['required', 'string', 'min:3', 'max:50'],
+            'status' => ['required', 'string', Rule::in(['DRAFT', 'ACTIVE', 'BLOCKED'])],
             'author' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'description' => ['nullable', 'string']
+        ];
+    }
+    // public function messages(): array
+    // {
+    //     return [
+    //         'required' => 'Заполни поле :attribute!'
+    //     ];
+    // }
+    public function attributes(): array
+    {
+        return [
+            'title' => 'заголовок'
         ];
     }
 }

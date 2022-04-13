@@ -1,10 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Source;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Source\CreateRequest;
+use App\Http\Requests\Source\EditRequest;
 
 class SourceController extends Controller
 {
@@ -34,18 +37,17 @@ class SourceController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['title', 'url']);
-        $source = Source::create($data);
+        $source = Source::create($request->validated());
         if ($source) {
             return redirect()
                 ->route('admin.sources.index')
-                ->with('success', 'Категория успешно добавлена');
+                ->with('success', __('messages.admin.sources.create.success'));
         }
-        return back()->with('error', 'Не удалось добавить категорию');
+        return back()->with('error', __('messages.admin.sources.create.fail'));
     }
 
 
@@ -63,7 +65,7 @@ class SourceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Source  $source
      * @return \Illuminate\Http\Response
      */
     public function edit(Source $source)
@@ -79,17 +81,17 @@ class SourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Source $source)
+    public function update(EditRequest $request, Source $source)
     {
         $status = $source
-            ->fill($request->only(['title', 'url']))
+            ->fill($request->validated())
             ->save();
         if ($status) {
             return redirect()
                 ->route('admin.sources.index')
-                ->with('success', 'Источник успешно изменён');
+                ->with('success', __('messages.admin.sources.update.success'));
         }
-        return back()->with('error', 'Не удалось изменить источник');
+        return back()->with('error', __('messages.admin.sources.update.fail'));
     }
 
     /**
@@ -98,8 +100,14 @@ class SourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Source $source)
     {
-        //
+        $status = $source::find($source->id)->delete();
+        if ($status) {
+            return redirect()
+                ->route('admin.sources.index')
+                ->with('success', __('messages.admin.sources.destroy.success'));
+        }
+        return back()->with('error', __('messages.admin.sources.destroy.fail'));
     }
 }

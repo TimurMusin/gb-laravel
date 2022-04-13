@@ -8,8 +8,8 @@ use App\Models\News;
 use App\Models\Source;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\News\EditRequest;
 use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\EditRequest;
 
 class NewsController extends Controller
 {
@@ -20,7 +20,6 @@ class NewsController extends Controller
      */
     public function index()
     {
-        News::all()->last()->delete();
         return view('admin.news.index', [
             'newsList' => News::with('category')->paginate(10)
         ]);
@@ -42,14 +41,13 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  News  $news
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateRequest $request, News $news)
+    public function store(CreateRequest $request)
     {
-        $status = $news::create($request->validated());
-        if ($status) {
+        $news = News::create($request->validated());
+        if ($news) {
             return redirect()
                 ->route('admin.news.index')
                 ->with('success', __('messages.admin.news.create.success'));
@@ -115,8 +113,8 @@ class NewsController extends Controller
         if ($status) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно удалена');
+                ->with('success', __('messages.admin.news.destroy.success'));
         }
-        return back()->with('error', 'Не удалось удалить новость');
+        return back()->with('error', __('messages.admin.news.destroy.fail'));
     }
 }

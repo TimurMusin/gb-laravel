@@ -20,6 +20,7 @@
             <th>Наименование</th>
             <th>URL</th>
             <th>Кол-во новостей</th>
+            <th>Изменено</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -29,6 +30,11 @@
                 <td>{{ $source->title }}</td>
                 <td>{{ $source->url }}</td>
                 <td>{{ $source->news_count }}</td>
+                <td>
+                    @if ($source->updated_at)
+                    {{ $source->updated_at->format('d.m.Y H:i') }}
+                    @endif
+                </td>
                 <td style="display: flex">
                     <form action="{{ route('admin.sources.edit', $source) }}" method="get" class="me-2">
                         @csrf

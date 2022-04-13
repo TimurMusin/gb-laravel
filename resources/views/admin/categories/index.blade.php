@@ -20,6 +20,7 @@
             <th>Наименование</th>
             <th>Описание</th>
             <th>Кол-во новостей</th>
+            <th>Изменено</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -29,6 +30,11 @@
                 <td>{{ $category->title }}</td>
                 <td>{{ $category->description }}</td>
                 <td>{{ $category->news_count }}</td>
+                <td>
+                    @if ($category->updated_at)
+                    {{ $category->updated_at->format('d.m.Y H:i') }}
+                    @endif
+                </td>
                 <td style="display: flex">
                     <form action="{{ route('admin.categories.edit', $category) }}" method="get" class="me-2">
                         @csrf

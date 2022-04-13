@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\CreateRequest;
+use App\Http\Requests\Category\EditRequest;
 
 class CategoryController extends Controller
 {
@@ -34,27 +35,26 @@ class CategoryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $data = $request->only(['title', 'description']);
-        $category = Category::create($data);
+        $category = Category::create($request->validated());
         if ($category) {
             return redirect()
                 ->route('admin.categories.index')
-                ->with('success', 'Категория успешно добавлена');
+                ->with('success', __('messages.admin.categories.create.success'));
         }
-        return back()->with('error', 'Не удалось добавить категорию');
+        return back()->with('error', __('messages.admin.categories.create.fail'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Category $category)
     {
         //
     }
@@ -62,7 +62,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Category  $category
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $category)
@@ -77,17 +77,17 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(EditRequest $request, Category $category)
     {
         $status = $category
-            ->fill($request->only(['title', 'description']))
+            ->fill($request->validated())
             ->save();
         if ($status) {
             return redirect()
                 ->route('admin.categories.index')
-                ->with('success', 'Категория успешно обновлена');
+                ->with('success', __('messages.admin.categories.update.success'));
         }
-        return back()->with('error', 'Не удалось обновить категорию');
+        return back()->with('error', __('messages.admin.categories.update.fail'));
     }
 
     /**
@@ -98,6 +98,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $status = $category::find($category->id)->delete();
+        if ($status) {
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('success', __('messages.admin.categories.destroy.success'));
+        }
+        return back()->with('error', __('messages.admin.categories.destroy.fail'));
     }
 }

@@ -36,12 +36,12 @@ class EditRequest extends FormRequest
             'description' => ['nullable', 'string']
         ];
     }
-    public function messages(): array
-    {
-        return [
-            'required' => 'Заполни :attribute!'
-        ];
-    }
+    // public function messages(): array
+    // {
+    //     return [
+    //         'required' => 'Заполни поле :attribute!'
+    //     ];
+    // }
     public function attributes(): array
     {
         return [

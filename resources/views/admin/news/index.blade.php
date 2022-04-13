@@ -12,8 +12,8 @@
         </div>
     </div>
 </div>
-@include('inc.messages')
 <div class="table-responsive">
+    @include('inc.messages')
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
@@ -23,7 +23,7 @@
             <th>Статус</th>
             <th>Автор</th>
             <th>Источник</th>
-            <th>Дата редактирования</th>
+            <th>Изменено</th>
             <th>Опции</th>
         </thead>
         <tbody>

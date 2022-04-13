@@ -135,7 +135,12 @@ return [
     ],
 
     'attributes' => [
+        'category_id' => 'категория',
+        'source_id' => 'источник',
         'title' => 'наименование',
-        'author' => 'автор'
+        'author' => 'автор',
+        'image' => 'изображение',
+        'status' => 'статус',
+        'description' => 'описание'
     ]
 ];
