@@ -133,4 +133,9 @@ return [
             'rule-name' => 'custom-message',
         ],
     ],
+
+    'attributes' => [
+        'title' => 'наименование',
+        'author' => 'автор'
+    ]
 ];

@@ -28,11 +28,11 @@ class NewsSeeder extends Seeder
             $data[] = [
                 'category_id' => mt_rand(1, DB::table('categories')->count()),
                 'source_id' => mt_rand(1, DB::table('sources')->count()),
-                'title' => $faker->jobTitle(),
+                'title' => $faker->realText(50),
                 'status' => $statusList[mt_rand(0, 2)],
-                'author' => $faker->userName(),
-                'image' => $faker->imageUrl(200, 200),
-                'description' => $faker->text(400)
+                'author' => $faker->name(),
+                'image' => $faker->imageUrl(640, 480),
+                'description' => $faker->realText(400)
             ];
         }
         return $data;

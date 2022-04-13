@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Requests\News;
+namespace App\Http\Requests\Category;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class EditRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -34,18 +33,6 @@ class EditRequest extends FormRequest
             'author' => ['required', 'string'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'description' => ['nullable', 'string']
-        ];
-    }
-    public function messages(): array
-    {
-        return [
-            'required' => 'Заполни :attribute!'
-        ];
-    }
-    public function attributes(): array
-    {
-        return [
-            'title' => 'заголовок'
         ];
     }
 }

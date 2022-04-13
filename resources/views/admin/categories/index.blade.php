@@ -29,10 +29,20 @@
                 <td>{{ $category->title }}</td>
                 <td>{{ $category->description }}</td>
                 <td>{{ $category->news_count }}</td>
-                <td>
-                    <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a>
-                    &nbsp;
-                    <a href="javascript:;" style="color: red;">Удл.</a>
+                <td style="display: flex">
+                    <form action="{{ route('admin.categories.edit', $category) }}" method="get" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            Ред.
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.categories.destroy', $category) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Удл.
+                        </button>
+                    </form>
                 </td>
             </tr>
             @empty

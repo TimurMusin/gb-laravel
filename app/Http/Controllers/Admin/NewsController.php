@@ -7,12 +7,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\News;
 use App\Models\Source;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\News\EditRequest;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\News\CreateRequest;
 
 class NewsController extends Controller
 {
@@ -45,13 +42,14 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
+     * @param  News  $news
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(CreateRequest $request)
+    public function store(CreateRequest $request, News $news)
     {
-        $news = News::create($request->validated());
-        if ($news) {
+        $status = $news::create($request->validated());
+        if ($status) {
             return redirect()
                 ->route('admin.news.index')
                 ->with('success', __('messages.admin.news.create.success'));
@@ -62,7 +60,7 @@ class NewsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
     public function show(News $news)
@@ -73,7 +71,7 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
     public function edit(News $news)
@@ -88,13 +86,12 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  News  $news
+     * @param  EditRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(EditRequest $request, News $news)
     {
-
         $status = $news
             ->fill($request->validated())
             ->save();
@@ -109,12 +106,12 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        $status = News::find($id)->delete();
+        $status = $news::find($news->id)->delete();
         if ($status) {
             return redirect()
                 ->route('admin.news.index')
