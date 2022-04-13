@@ -14,27 +14,18 @@ class CategoryController extends Controller
     {
         $category = $this->getCategory();
 
-        return view('category.index', [
+        return view('categories.index', [
             'categoryList' => $category
         ]);
     }
 
     public function show(string $category)
     {
-        // filter array of news by category
         $news = $this->getNewsByCategory($category);
 
-        return view('category.show', [
+        return view('categories.show', [
             'category' => $category,
             'newsList' => $news
         ]);
     }
-    // public function index()
-    // {
-    //     $news = $this->getNews();
-
-    //     return view('news.index', [
-    //         'newsList' => $news
-    //     ]);
-    // }
 }
