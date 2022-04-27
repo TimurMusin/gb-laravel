@@ -11,7 +11,7 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
-use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Admin\UsersController as AdminUsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,13 +62,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('news', AdminNewsController::class);
         Route::resource('categories', AdminCategoryController::class);
         Route::resource('sources', AdminSourceController::class);
+        Route::resource('users', AdminUsersController::class);
     });
 });
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
