@@ -7,7 +7,7 @@
 @endif
 
 @if ($errors->any())
-@foreach ($eroors as $error)
+@foreach ($errors as $error)
 <x-alert type="danger" :message="$error"></x-alert>
 @endforeach
 @endif

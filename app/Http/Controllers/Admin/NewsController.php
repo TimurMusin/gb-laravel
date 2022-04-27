@@ -7,11 +7,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\News;
 use App\Models\Source;
 use App\Models\Category;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\EditRequest;
 
 class NewsController extends Controller
 {
@@ -22,7 +20,6 @@ class NewsController extends Controller
      */
     public function index()
     {
-        News::all()->last()->delete();
         return view('admin.news.index', [
             'newsList' => News::with('category')->paginate(10)
         ]);
@@ -45,32 +42,26 @@ class NewsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string']
-        ]);
-
-        $news = News::create($request->only([
-            'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
-        ]));
+        $news = News::create($request->validated());
         if ($news) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно добавлена');
+                ->with('success', __('messages.admin.news.create.success'));
         }
-        return back()->with('error', 'Не удалось добавить новость');
+        return back()->with('error', __('messages.admin.news.create.fail'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(News $news)
     {
         //
     }
@@ -78,7 +69,7 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
     public function edit(News $news)
@@ -93,40 +84,37 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  News  $news
+     * @param  EditRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, News $news)
+    public function update(EditRequest $request, News $news)
     {
         $status = $news
-            ->fill($request
-                ->only([
-                    'category_id', 'source_id', 'title', 'status', 'author', 'image', 'description'
-                ]))
+            ->fill($request->validated())
             ->save();
         if ($status) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно изменена');
+                ->with('success', __('messages.admin.news.update.success'));
         }
-        return back()->with('error', 'Не удалось изменить новость');
+        return back()->with('error', __('messages.admin.news.update.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News  $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        $status = News::find($id)->delete();
+        $status = $news::find($news->id)->delete();
         if ($status) {
             return redirect()
                 ->route('admin.news.index')
-                ->with('success', 'Новость успешно удалена');
+                ->with('success', __('messages.admin.news.destroy.success'));
         }
-        return back()->with('error', 'Не удалось удалить новость');
+        return back()->with('error', __('messages.admin.news.destroy.fail'));
     }
 }

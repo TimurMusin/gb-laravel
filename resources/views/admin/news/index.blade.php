@@ -12,8 +12,8 @@
         </div>
     </div>
 </div>
-@include('inc.messages')
 <div class="table-responsive">
+    @include('inc.messages')
     <table class="table table-bordered">
         <thead>
             <th>ID</th>
@@ -23,7 +23,7 @@
             <th>Статус</th>
             <th>Автор</th>
             <th>Источник</th>
-            <th>Дата редактирования</th>
+            <th>Изменено</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -41,11 +41,20 @@
                     {{ $news->updated_at->format('d.m.Y H:i') }}
                     @endif
                 </td>
-                <td>
-                    <a href="{{ route('admin.news.edit', $news->id) }}">Ред.</a>
-                    &nbsp;
-                    <a href="{{ route('admin.news.destroy', $news->id) }}" style="color: red;">Удл.</a>
-                    {{-- <a href="javascript:;" style="color: red;">Удл.</a> --}}
+                <td style="display: flex">
+                    <form action="{{ route('admin.news.edit', $news) }}" method="get" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            Ред.
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.news.destroy', $news) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Удл.
+                        </button>
+                    </form>
                 </td>
             </tr>
             @empty

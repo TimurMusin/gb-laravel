@@ -20,6 +20,7 @@
             <th>Наименование</th>
             <th>URL</th>
             <th>Кол-во новостей</th>
+            <th>Изменено</th>
             <th>Опции</th>
         </thead>
         <tbody>
@@ -30,9 +31,24 @@
                 <td>{{ $source->url }}</td>
                 <td>{{ $source->news_count }}</td>
                 <td>
-                    <a href="{{ route('admin.sources.edit', ['source' => $source->id]) }}">Ред.</a>
-                    &nbsp;
-                    <a href="javascript:;" style="color: red;">Удл.</a>
+                    @if ($source->updated_at)
+                    {{ $source->updated_at->format('d.m.Y H:i') }}
+                    @endif
+                </td>
+                <td style="display: flex">
+                    <form action="{{ route('admin.sources.edit', $source) }}" method="get" class="me-2">
+                        @csrf
+                        <button type="submit" class="btn btn-outline-primary btn-sm">
+                            Ред.
+                        </button>
+                    </form>
+                    <form action="{{ route('admin.sources.destroy', $source) }}" method="post">
+                        @csrf
+                        @method('delete')
+                        <button type="submit" class="btn btn-outline-danger btn-sm">
+                            Удл.
+                        </button>
+                    </form>
                 </td>
             </tr>
             @empty
